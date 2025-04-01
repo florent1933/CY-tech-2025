@@ -1,0 +1,16 @@
+<br />
+Production 🍫: {{ painAuChocolats$ | async }} <br />
+
+Stock 🍫🍫:
+{{ stockPainAuChocolats$ | async }} ({{
+  stockPricePainAuChocolat$ | async | currency : "EUR"
+}})
+<hr />
+Production 🥐: {{ croissants$ | async }} <br />
+
+Stock 🥐🥐:
+{{ stockCroissant$ | async }} ({{
+  stockPriceCroissant$ | async | currency : "EUR"
+}})
+
+<hr />
