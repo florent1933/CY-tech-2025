@@ -17,9 +17,9 @@ export class DisplayYoloComponent {
   getColor(counter: number, reverse: boolean) {
     // return counter % 2 === 0 ? 'blue' : 'red';
     //  arc en ciel
-    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple','pink'];
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
     if (reverse) {
-      return colors[colors.length - 2 - (counter % colors.length)];
+      return colors[colors.length - 1 - (counter % colors.length)];
     }
 
     return colors[counter % colors.length];
