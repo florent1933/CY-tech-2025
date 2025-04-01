@@ -1,0 +1,13 @@
+{{ counter }}
+
+<h4>Yolo displays</h4>
+@for (item of getArray(counter); track $index) {
+<h5
+  [ngStyle]="{
+    color: getColor($index, false),
+    'background-color': getColor($index, true)
+  }"
+>
+  Yolo
+</h5>
+}

@@ -1,1 +1,13 @@
-<p>parent works!</p>
+<h1>Counter: {{ counter }}</h1>
+<h3>Click on the button to increment the counter</h3>
+<button (click)="increment()">Increment</button>
+
+@if (counter > 0) {
+<button (click)="decrement()">Decrement</button>
+}
+
+<br />
+<fieldset>
+  Display yolo
+  <app-display-yolo [counter]="counter"></app-display-yolo>
+</fieldset>
