@@ -1,0 +1,29 @@
+<!-- Fond étoilé animé -->
+<div class="background-stars"></div>
+
+<!-- Étoiles filantes -->
+<div class="shooting-star" style="left: 10%; animation-delay: 5s;"></div>
+<div class="shooting-star" style="left: 50%; animation-delay: 12s;"></div>
+<div class="shooting-star" style="left: 80%; animation-delay: 20s;"></div>
+
+<!-- Contenu principal -->
+<div class="container animate__animated animate__fadeIn">
+  <h1 class="title">🌌 Générateur de YOLO Galactique 🌌</h1>
+
+  <app-input-yolo (nombreChange)="onNombreYoloChanged($event)"></app-input-yolo>
+  <app-display-yolo [nombre]="nombreYolo"></app-display-yolo>
+
+  <!-- Étoiles interactives -->
+  <div class="stars">
+    <div class="star" style="top:10%;left:5%;"></div>
+    <div class="star" style="top:25%;right:10%;"></div>
+    <div class="star" style="top:50%;left:2%;"></div>
+    <div class="star" style="top:70%;right:5%;"></div>
+    <div class="star" style="top:85%;left:7%;"></div>
+    <div class="star" style="top:15%;right:8%;"></div>
+    <div class="star" style="top:35%;left:4%;"></div>
+    <div class="star" style="top:60%;right:3%;"></div>
+    <div class="star" style="top:80%;left:6%;"></div>
+    <div class="star" style="top:40%;right:6%;"></div>
+  </div>
+</div>

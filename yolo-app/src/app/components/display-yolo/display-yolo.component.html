@@ -1,0 +1,9 @@
+<div class="yolo-container">
+    <div 
+      *ngFor="let yolo of yolos; let i = index"
+      class="yolo-box animate__animated animate__bounceIn"
+      [style.animationDelay]="(i * 150) + 'ms'">
+      ✨ YOLO ✨
+    </div>
+  </div>
+  

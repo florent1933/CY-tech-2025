@@ -1,0 +1,9 @@
+<div class="input-box">
+    <input 
+      type="number" 
+      [(ngModel)]="nombre" 
+      [ngModelOptions]="{updateOn: 'blur'}"
+      placeholder="Entrez un nombre de YOLO">
+    <button (click)="updateNombre()">Afficher YOLO</button>
+  </div>
+  
