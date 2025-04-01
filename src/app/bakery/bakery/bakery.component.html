@@ -14,3 +14,18 @@ Stock 🥐🥐:
 }})
 
 <hr />
+
+💸💸💸 Stock 💸💸💸
+{{ stockPrice$ | async | currency : "EUR" }}
+
+<hr />
+
+Customers in the bakery: {{ customerVisits$ | async }} 🧑‍🦳 (Total:
+{{ customerVisitsCounts$ | async }})<br />
+Bought painAuChocolats: {{ buyingPainAuChocolat$ | async }}<br />
+Bought croissants: {{ buyingCroissant$ | async }}<br />
+
+Total bought painAuChocolats: {{ buyingPainAuChocolatCount$ | async }}<br />
+Total bought croissants: {{ buyingCroissantCount$ | async }}<br />
+
+<b>🏆 In the bank account: {{ totalSold$ | async | currency : "EUR" }} </b>

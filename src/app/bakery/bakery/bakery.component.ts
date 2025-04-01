@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { map, Observable, scan, share, tap, timer } from 'rxjs';
+import { combineLatest, map, Observable, scan, share, tap, timer } from 'rxjs';
 
-const CHOCOLATINE_PRICE = 1.1;
+const CHOCOLATINE_PRICE = 1.2;
 const CROISSANT_PRICE = 1.1;
 
 @Component({
@@ -22,7 +22,75 @@ export class BakeryComponent {
   stockCroissant$: Observable<number>;
   stockPriceCroissant$: Observable<number>;
 
+  stockPrice$: Observable<number>;
+
+  customerVisitsTimer$ = timer(0, 8000);
+  customerVisits$: Observable<number>;
+  customerVisitsCounts$: Observable<number>;
+
+  buyingPainAuChocolat$: Observable<number>;
+  buyingCroissant$: Observable<number>;
+
+  buyingPainAuChocolatCount$: Observable<number>;
+  buyingCroissantCount$: Observable<number>;
+
+  totalSold$: Observable<number>;
+
   ngOnInit() {
+    this.customerVisits$ = this.customerVisitsTimer$.pipe(
+      map((value) => this.randomNumberBetween(1, 5)),
+      tap((value) => {
+        console.log('customer', value);
+      }),
+      share()
+    );
+
+    this.customerVisitsCounts$ = this.customerVisits$.pipe(
+      scan((acc, value) => {
+        return acc + value;
+      }, 0),
+      share()
+    );
+
+    this.buyingPainAuChocolat$ = this.customerVisits$.pipe(
+      map((value) => this.randomNumberBetween(0, value) * 2),
+      tap((value) => {
+        console.log('buying pain au chocolat', value);
+      }),
+      share()
+    );
+
+    this.buyingCroissant$ = this.customerVisits$.pipe(
+      map((value) => this.randomNumberBetween(0, value) * 4),
+      tap((value) => {
+        console.log('buying croissant', value);
+      }),
+      share()
+    );
+
+    this.buyingCroissantCount$ = this.buyingCroissant$.pipe(
+      scan((acc, value) => {
+        return acc + value;
+      }, 0),
+      share()
+    );
+    this.buyingPainAuChocolatCount$ = this.buyingPainAuChocolat$.pipe(
+      scan((acc, value) => {
+        return acc + value;
+      }, 0),
+      share()
+    );
+
+    this.totalSold$ = combineLatest([
+      this.buyingPainAuChocolatCount$,
+      this.buyingCroissantCount$,
+    ]).pipe(
+      map(([painAuChocolat, croissant]) => {
+        return painAuChocolat * CHOCOLATINE_PRICE + croissant * CROISSANT_PRICE;
+      }),
+      share()
+    );
+
     this.painAuChocolats$ = this.factoryTimer$.pipe(
       // 1 pain au chocolat toutes les 2 secondes
       map((value) => this.randomNumberBetween(8, 12)),
@@ -65,6 +133,16 @@ export class BakeryComponent {
     this.stockPriceCroissant$ = this.stockCroissant$.pipe(
       map((value) => {
         return value * CROISSANT_PRICE;
+      }),
+      share()
+    );
+
+    this.stockPrice$ = combineLatest([
+      this.stockPricePainAuChocolat$,
+      this.stockPriceCroissant$,
+    ]).pipe(
+      map(([painAuChocolat, croissant]) => {
+        return painAuChocolat + croissant;
       }),
       share()
     );
