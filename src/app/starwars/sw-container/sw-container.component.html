@@ -1,7 +1,21 @@
-<p>sw-container works!</p>
+<br />
+Selected terrain:
+{{ selectedTerrain.value }}
+
+<h3>Available terrains</h3>
+
+<div fxLayout="row grid" fxLayoutGap="8px">
+  @for (terrain of terrains$ | async; track $index) {
+  <div>
+    <button type="button" (click)="selectTerrain(terrain)">
+      {{ terrain }}
+    </button>
+  </div>
+  }
+</div>
 
 <div fxLayout="row grid" fxLayoutAlign="center center" fxLayoutGap="12px">
-  @for (planet of planets$ | async; track $index) {
+  @for (planet of filteredPlanets$ | async; track $index) {
   <div class="card">
     <b>{{ planet.name }}</b
     ><br />
