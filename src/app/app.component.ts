@@ -7,6 +7,7 @@ import { ButtonYtComponent } from './features/button-yt/button-yt.component';
 import { L1Component } from './reactive/l1/l1.component';
 import { L2Component } from './reactive/l2/l2.component';
 import { ParentComponent } from './tp2/parent/parent.component';
+import { SwContainerComponent } from './starwars/sw-container/sw-container.component';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ import { ParentComponent } from './tp2/parent/parent.component';
     L1Component,
     L2Component,
     BakeryComponent,
+    SwContainerComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
