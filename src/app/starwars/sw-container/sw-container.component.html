@@ -1,2 +1,16 @@
 <p>sw-container works!</p>
-{{ (data$ | async)?.results | json }}
+
+<div fxLayout="row grid" fxLayoutAlign="center center" fxLayoutGap="12px">
+  @for (planet of planets$ | async; track $index) {
+  <div class="card">
+    <b>{{ planet.name }}</b
+    ><br />
+    {{ planet.diameter }}<br />
+    {{ planet.climate }}<br />
+    {{ planet.gravity }}<br />
+    {{ planet.terrain }}<br />
+    {{ planet.surface_water }}<br />
+    {{ planet.population }}<br />
+  </div>
+  }
+</div>

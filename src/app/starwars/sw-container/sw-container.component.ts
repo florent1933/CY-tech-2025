@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { map, Observable, share } from 'rxjs';
 
 type Planet = {
   climate: string;
@@ -29,18 +30,22 @@ type ResponsePlanets = {
 
 @Component({
   selector: 'app-sw-container',
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, FlexLayoutModule],
   templateUrl: './sw-container.component.html',
   styleUrl: './sw-container.component.scss',
 })
 export class SwContainerComponent {
   data$: Observable<ResponsePlanets>;
 
+  planets$: Observable<Planet[]>;
+
   httpClient = inject(HttpClient);
 
   ngOnInit() {
-    this.data$ = this.httpClient.get<ResponsePlanets>(
-      'https://swapi.py4e.com/api/planets'
-    );
+    this.data$ = this.httpClient
+      .get<ResponsePlanets>('https://swapi.py4e.com/api/planets')
+      .pipe(share());
+
+    this.planets$ = this.data$.pipe(map((response) => response.results));
   }
 }
