@@ -2,12 +2,17 @@
 Selected terrain:
 {{ selectedTerrain.value }}
 
+{{ searchTextFormControl.value }}
+
 <h3>Available terrains</h3>
+
+<input type="text" [formControl]="searchTextFormControl" />
 
 <div fxLayout="row grid" fxLayoutGap="8px">
   @for (terrain of terrains$ | async; track $index) {
   <div>
     <button type="button" (click)="selectTerrain(terrain)">
+      @if (terrain === selectedTerrain.value) { 🏝️ }
       {{ terrain }}
     </button>
   </div>

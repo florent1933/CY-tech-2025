@@ -2,7 +2,15 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BehaviorSubject, combineLatest, map, Observable, share } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  share,
+  startWith,
+} from 'rxjs';
 
 type Planet = {
   climate: string;
@@ -30,7 +38,12 @@ type ResponsePlanets = {
 
 @Component({
   selector: 'app-sw-container',
-  imports: [CommonModule, HttpClientModule, FlexLayoutModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './sw-container.component.html',
   styleUrl: './sw-container.component.scss',
 })
@@ -43,6 +56,7 @@ export class SwContainerComponent {
   terrains$: Observable<string[]>;
 
   selectedTerrain = new BehaviorSubject<string>('All');
+  searchTextFormControl = new FormControl<string>('');
 
   httpClient = inject(HttpClient);
 
@@ -80,12 +94,19 @@ export class SwContainerComponent {
     this.filteredPlanets$ = combineLatest([
       this.planets$,
       this.selectedTerrain.asObservable(),
+      this.searchTextFormControl.valueChanges.pipe(startWith('')),
     ]).pipe(
-      map(([planets, selectedTerrain]) => {
+      map(([planets, selectedTerrain, search]) => {
+        const filteredPlanets = planets.filter((planet) => {
+          return planet.name
+            .toLowerCase()
+            .includes(search?.toLowerCase() || '');
+        });
+
         if (selectedTerrain === 'All') {
-          return planets;
+          return filteredPlanets;
         } else {
-          return planets.filter((planet) => {
+          return filteredPlanets.filter((planet) => {
             return planet.terrain.includes(selectedTerrain);
           });
         }
@@ -94,6 +115,11 @@ export class SwContainerComponent {
   }
 
   public selectTerrain(terrain: string) {
+    if (this.selectedTerrain.value === terrain) {
+      this.selectedTerrain.next('All');
+      return;
+    }
+
     this.selectedTerrain.next(terrain);
   }
 }
